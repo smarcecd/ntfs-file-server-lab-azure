@@ -39,7 +39,7 @@ variable "nsg_name" {
 variable "rdp_source" {
   type        = string
   default     = "*"
-  description = "107.141.51.139/32"
+  description = "Your public IP in CIDR format — e.g. 1.2.3.4/32. Find at whatismyip.com"
 }
 
 variable "admin_username" {
