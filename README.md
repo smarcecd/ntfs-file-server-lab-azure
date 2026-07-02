@@ -118,14 +118,17 @@ Please remember the storage account name must be unique, then change the name "t
 
 ```powershell
 az login
+```
+
+```powershell
 az group create --name RG-TerraformState --location "East US"
+```
 
-az storage account create `
-  --name tfstatentfslabYOURNAME `
-  --resource-group RG-TerraformState `
-  --sku Standard_LRS `
-  --encryption-services blob
+```powershell
+az storage account create --name tfstatentfslabYOURNAME --resource-group RG-TerraformState --sku Standard_LRS --encryption-services blob
+```
 
+```powershell
 az storage container create --name tfstate --account-name tfstatentfslabYOURNAME
 ```
 
