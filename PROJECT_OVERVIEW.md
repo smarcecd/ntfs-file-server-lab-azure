@@ -80,6 +80,7 @@ By completing this lab you will be able to:
 | Secrets pre-loaded in Key Vault   | See [Configuration Reference](#7-configuration-reference) |
 | Sufficient vCPU quota             | 3× Standard_B2ms = 6 vCPUs in chosen region  |
 
+
 ### Local Workstation Requirements
 
 | Tool              | Minimum Version | Install                                                    |
@@ -89,6 +90,7 @@ By completing this lab you will be able to:
 | Git               | Any             | https://git-scm.com                                        |
 | PowerShell        | 5.1+ or 7.x     | Built-in on Windows                                        |
 | VS Code (optional)| Any             | Recommended with the HashiCorp Terraform extension         |
+
 
 ### Authentication Setup
 
@@ -111,8 +113,18 @@ export ARM_CLIENT_SECRET="<password>"
 export ARM_TENANT_ID="<tenant>"
 export ARM_SUBSCRIPTION_ID="<subscriptionId>"
 
+### 4. Export credentials as environment variables
 
-4. Lab Environment at a Glance
+# 4. Export credentials as environment variables
+export ARM_CLIENT_ID="<appId>"
+export ARM_CLIENT_SECRET="<password>"
+export ARM_TENANT_ID="<tenant>"
+export ARM_SUBSCRIPTION_ID="<subscriptionId>"
+```
+
+---
+
+## 4. Lab Environment at a Glance
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -136,22 +148,28 @@ export ARM_SUBSCRIPTION_ID="<subscriptionId>"
   Shared services:  Azure Key Vault  |  Boot Diagnostics Storage
 
 
-  Virtual Machines Summary
-VM	Role	OS	vCPU	RAM	Extra Disk
-DC01	Domain Controller	Windows Server 2022 DC	2	8 GB	None
-FS01	File Server	Windows Server 2022 DC	2	8 GB	64 GB (E:)
-CLIENT01	Workstation	Windows Server 2022 DC	2	8 GB	None
+###   Virtual Machines Summary
+| **VM**      | **Role**             | **OS**                     | **vCPU** | **RAM** | **Extra Disk**     |
+|-------------|----------------------|-----------------------------|----------|---------|---------------------|
+| **DC01**    | Domain Controller    | Windows Server 2022 DC     | 2        | 8 GB    | None                |
+| **FS01**    | File Server          | Windows Server 2022 DC     | 2        | 8 GB    | 64 GB (E:)          |
+| **CLIENT01**| Workstation          | Windows Server 2022 DC     | 2        | 8 GB    | None                |
 
 
 
-SMB Shares & Access
-Share	UNC Path	Who Has Access	NTFS Level
-Finance	\\FS01\Finance	GRP_Finance_RW, IT Admins	Modify / Full
-HR	\\FS01\HR	GRP_HR_RW, IT Admins	Modify / Full
-IT	\\FS01\IT	GRP_IT_Admins only	Full Control
+
+###  SMB Shares & Access
+
+| **Share** | **UNC Path**        | **Who Has Access**                 | **NTFS Level**      |
+|-----------|----------------------|------------------------------------|----------------------|
+| Finance   | \\FS01\Finance       | GRP_Finance_RW, IT Admins          | Modify / Full        |
+| HR        | \\FS01\HR            | GRP_HR_RW, IT Admins               | Modify / Full        |
+| IT        | \\FS01\IT            | GRP_IT_Admins only                 | Full Control         |
 
 
-5. Repository Structure
+---
+
+## 5. Repository Structure
 
 ```text
 ntfs-lab/
@@ -183,7 +201,9 @@ ntfs-lab/
 ```
 
 
-6. Quick Start
+---
+
+## 6. Quick Start
 
 ```powershell
 
@@ -213,7 +233,9 @@ domain with file shares — takes approximately 20–25 minutes, most of which i
 reboots after domain promotion.
 
 
-7. Configuration Reference
+---
+
+## 7. Configuration Reference
 terraform.tfvars (non-secret values)
 
 ```hcl
@@ -234,11 +256,13 @@ vm_size              = "Standard_B2ms"
 ```
 
 
-Key Vault Secrets Required
-Secret Name	Description
-vm-admin-password	Local admin password for all 3 VMs
-domain-admin-password	Used to promote DC01 and join FS01/CLIENT01
-dc-safe-mode-password	DSRM password for DC01
+### Key Vault Secrets Required
+
+| **Secret Name**          | **Description**                                      |
+|--------------------------|------------------------------------------------------|
+| vm-admin-password        | Local admin password for all 3 VMs                  |
+| domain-admin-password    | Used to promote DC01 and join FS01/CLIENT01         |
+| dc-safe-mode-password    | DSRM password for DC01                              |
 
 
 
@@ -264,126 +288,100 @@ az keyvault secret set \
 
 
 Terraform Outputs
-Output Name	Description
-dc01_public_ip	RDP address for Domain Controller
-fs01_public_ip	RDP address for File Server
-client01_public_ip	RDP address for Client Workstation
-key_vault_uri	URI of the provisioned Key Vault
+| **Output Name**       | **Description**                               |
+|------------------------|-----------------------------------------------|
+| dc01_public_ip         | RDP address for Domain Controller             |
+| fs01_public_ip         | RDP address for File Server                   |
+| client01_public_ip     | RDP address for Client Workstation            |
+| key_vault_uri          | URI of the provisioned Key Vault              |
 
 
-8. Key Design Decisions
-Why Azure Key Vault for secrets?
+---
+
+## 8. Key Design Decisions
+
+- Why Azure Key Vault for secrets?
 Hardcoding passwords in .tf files or terraform.tfvars risks accidental exposure in version
 control. Key Vault secrets are read at apply time using Terraform data sources and passed as
 sensitive values — they appear redacted in plan output and are never written to the state
 file in plaintext.
 
-Why static private IPs for DC01 and FS01?
+- Why static private IPs for DC01 and FS01?
 Dynamic IPs would break DNS resolution and domain join logic. DC01 must be at a predictable
 address (10.0.1.4) so it can be hardcoded as the VNet DNS server and reliably referenced by
 the FS01 and CLIENT01 join scripts.
 
-Why explicit depends_on for extensions?
+- Why explicit depends_on for extensions?
 PowerShell extensions that configure FS01/CLIENT01 have a time-sequencing requirement that
 Terraform's implicit graph doesn't capture (resource exists ≠ domain is ready). Explicit
 depends_on combined with a retry loop in PowerShell ensures domain join only attempts after
 the domain is actually reachable.
 
-Why a separate data disk for FS01?
+- Why a separate data disk for FS01?
 Storing share data on the OS disk means losing all files if the OS needs to be rebuilt. A
 separate 64 GB managed disk (E:) can be detached, snapshotted, or reattached independently —
 which mirrors production file server best practices.
 
-Why security groups for NTFS ACLs instead of individual users?
+- Why security groups for NTFS ACLs instead of individual users?
 Assigning permissions to groups rather than users reflects real-world least-privilege design:
 adding or removing a user from a group is a single operation that adjusts their access across
 every resource the group controls.
 
-9. What Gets Built
+---
+
+## 9. What Gets Built
+
 A single terraform apply provisions and configures the following:
 
-Azure Infrastructure (22+ resources)
+- Azure Infrastructure (22+ resources)
+- 1× Resource Group
+- 1× Virtual Network + 1× Subnet
+- 1× Network Security Group + NSG rules
+- 3× Public IP addresses
+- 3× Network Interface Cards
+- 3× Windows Virtual Machines
+- 1× Managed Data Disk (attached to FS01)
+- 1× Azure Key Vault
+- 1× Storage Account (boot diagnostics)
+- 3× VM Custom Script Extensions
+- Active Directory (on DC01)
+- Forest: lab.local (Windows Server 2016 functional level)
+- 3× Organizational Units: Workstations, FileServers, Users
+- 3× Security Groups: GRP_Finance_RW, GRP_HR_RW, GRP_IT_Admins
+- 3× Domain Users: alice (Finance), bob (HR), charlie (IT)
+- DNS forwarder pointed at Azure DNS (168.63.129.16)
+- File Server (on FS01)
+- Domain-joined to lab.local
+- E: drive initialized, partitioned, and formatted (NTFS)
+- 3× SMB Shares published: Finance, HR, IT
+- NTFS ACLs applied per security group on each share folder
+- Client Workstation (CLIENT01)
+- Domain-joined to lab.local
+- Network drives mapped to \\FS01\Finance and \\FS01\HR
 
-1× Resource Group
+---
 
-1× Virtual Network + 1× Subnet
-
-1× Network Security Group + NSG rules
-
-3× Public IP addresses
-
-3× Network Interface Cards
-
-3× Windows Virtual Machines
-
-1× Managed Data Disk (attached to FS01)
-
-1× Azure Key Vault
-
-1× Storage Account (boot diagnostics)
-
-3× VM Custom Script Extensions
-
-Active Directory (on DC01)
-
-Forest: lab.local (Windows Server 2016 functional level)
-
-3× Organizational Units: Workstations, FileServers, Users
-
-3× Security Groups: GRP_Finance_RW, GRP_HR_RW, GRP_IT_Admins
-
-3× Domain Users: alice (Finance), bob (HR), charlie (IT)
-
-DNS forwarder pointed at Azure DNS (168.63.129.16)
-
-File Server (on FS01)
-
-Domain-joined to lab.local
-
-E: drive initialized, partitioned, and formatted (NTFS)
-
-3× SMB Shares published: Finance, HR, IT
-
-NTFS ACLs applied per security group on each share folder
-
-Client Workstation (CLIENT01)
-
-Domain-joined to lab.local
-
-Network drives mapped to \\FS01\Finance and \\FS01\HR
-
-10. Validation Checklist
+## 10. Validation Checklist
 After terraform apply completes, run through these checks:
 
 From DC01 (RDP as LAB\labadmin)
 [ ] Get-ADDomain returns lab.local
-
 [ ] Get-ADOrganizationalUnit -Filter * shows Workstations, FileServers, Users
-
 [ ] Get-ADUser -Filter * shows alice, bob, charlie
-
 [ ] Get-ADGroup -Filter * shows all 3 security groups
-
 [ ] Resolve-DnsName fs01.lab.local resolves to 10.0.1.5
 
 From FS01 (RDP as LAB\labadmin)
 [ ] (Get-WmiObject Win32_ComputerSystem).Domain returns lab.local
-
 [ ] Get-SmbShare lists Finance, HR, IT
-
 [ ] Get-Disk shows the 64 GB data disk as online
-
 [ ] icacls E:\Shares\Finance shows correct ACEs for GRP_Finance_RW
 
 From CLIENT01 (RDP as LAB\alice)
 [ ] whoami returns LAB\alice
-
 [ ] net use shows mapped drives to \\FS01\Finance
-
 [ ] ✔ Can create a file in \\FS01\Finance
-
 [ ] ✔ Cannot access \\FS01\HR — Access Denied expected
-
 [ ] ✔ Cannot access \\FS01\IT — Access Denied expected
 
 
