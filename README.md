@@ -63,7 +63,6 @@ To learn how to Install Terraform and connect it to your Azure susbscription, pl
 
 ##  📁 Project Structure
 
-Code
 ntfs-lab-terraform/
 ├── backend.tf
 ├── versions.tf
@@ -76,14 +75,14 @@ ntfs-lab-terraform/
 ├── .gitignore
 ├── configure-lab.ps1
 └── scripts/
-    ├── 00-promote-dc.ps1
-    ├── 01-create-ad-users-groups.ps1
-    ├── 02-configure-shares-and-permissions.ps1
-    ├── 03-configure-rdp-gpo.ps1
-    ├── 04-domain-join.ps1
-    ├── 05-verify-ad.ps1
-    ├── 05-verify-shares.ps1
-    └── 06-add-rdp-users.ps1
+├── 00-promote-dc.ps1
+├── 01-create-ad-users-groups.ps1
+├── 02-configure-shares-and-permissions.ps1
+├── 03-configure-rdp-gpo.ps1
+├── 04-domain-join.ps1
+├── 05-verify-ad.ps1
+├── 05-verify-shares.ps1
+└── 06-add-rdp-users.ps1
 
 ---
 
