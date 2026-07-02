@@ -190,9 +190,9 @@ data "azurerm_key_vault_secret" "admin_password" {
 
 # Referenced as:
 # data.azurerm_key_vault_secret.admin_password.value
+```
 
-
-5. Active Directory & DNS
+### 5. Active Directory & DNS
 Domain Topology
 
 ```text
@@ -228,7 +228,7 @@ Azure DNS / 168.63.129.16
 
 
 
-6. NTFS Share Design
+### 6. NTFS Share Design
 All shares reside on FS01's E:\Shares\ data disk. Two permission layers are applied: SMB share-level and NTFS folder-level.
 
 Share Structure
@@ -240,23 +240,28 @@ E:\Shares\
 ```
 
 SMB Share Permissions
-Share	SMB Permission	Notes
-Finance	Auth Users — Read; GRP_Finance_RW — Change	NTFS handles granular ACLs
-HR	Auth Users — Read; GRP_HR_RW — Change	NTFS handles granular ACLs
-IT	GRP_IT_Admins — Full Control	Admin share only
+
+| Share   | SMB Permission                                   | Notes                         |
+|---------|--------------------------------------------------|-------------------------------|
+| Finance | Auth Users — Read; GRP_Finance_RW — Change       | NTFS handles granular ACLs    |
+| HR      | Auth Users — Read; GRP_HR_RW — Change            | NTFS handles granular ACLs    |
+| IT      | GRP_IT_Admins — Full Control                     | Admin share only |
 
 
-NTFS ACL Matrix
-Folder	Principal	NTFS Permission	Inheritance
-Finance\	GRP_Finance_RW	Modify	This folder, subfolders, files
-Finance\	GRP_IT_Admins	Full Control	This folder, subfolders, files
-Finance\	SYSTEM	Full Control	This folder, subfolders, files
-HR\	GRP_HR_RW	Modify	This folder, subfolders, files
-HR\	GRP_IT_Admins	Full Control	This folder, subfolders, files
-IT\	GRP_IT_Admins	Full Control	This folder, subfolders, files
+### 🔒 NTFS Permission Matrix
+
+| Folder   | Principal         | NTFS Permission | Inheritance                         |
+|----------|-------------------|-----------------|-------------------------------------|
+| Finance\ | GRP_Finance_RW    | Modify          | This folder, subfolders, files      |
+| Finance\ | GRP_IT_Admins     | Full Control    | This folder, subfolders, files      |
+| Finance\ | SYSTEM            | Full Control    | This folder, subfolders, files      |
+| HR\      | GRP_HR_RW         | Modify          | This folder, subfolders, files      |
+| HR\      | GRP_IT_Admins     | Full Control    | This folder, subfolders, files      |
+| IT\      | GRP_IT_Admins     | Full Control    | This folder, subfolders, files      |
 
 
-7. Deployment Flow
+
+### 7. Deployment Flow
 
 ```text
 terraform init
@@ -301,7 +306,7 @@ terraform apply
 ```
 
 Dependency Graph (Simplified)
-
+```text
 key_vault
     └─► vm_dc01
             └─► extension_dc01
@@ -313,10 +318,11 @@ key_vault
 vnet ──────────────► nic_dc01    ──► vm_dc01
            ├───────► nic_fs01    ──► vm_fs01
            └───────► nic_client01──► vm_client01
+```
 
-
-8. Project Folder Tree
-
+### 8. Project Folder Tree
+   
+```text
 ntfs-lab/
 │
 ├── main.tf                     # Root module — calls all child modules
@@ -363,28 +369,21 @@ ntfs-lab/
 │   └── TROUBLESHOOTING.md
 │
 └── .gitignore                  # Excludes *.tfstate, *.tfvars, .terraform/
+```
 
 
-
-9. PowerShell Automation Scripts
-configure-dc01.ps1 — Domain Controller Setup
+### 9. PowerShell Automation Scripts
+    
+**configure-dc01.ps1** — Domain Controller Setup
 Responsibilities:
-
-Install AD-Domain-Services and DNS Windows features
-
-Promote server as new forest root (lab.local)
-
-Reboot, then post-reboot:
-
-Create OUs: Workstations, FileServers, Users
-
-Create Security Groups: GRP_Finance_RW, GRP_HR_RW, GRP_IT_Admins
-
-Create Users: alice, bob, charlie with Key Vault-sourced passwords
-
-Add users to appropriate groups
-
-Set DNS forwarder to 168.63.129.16 (Azure DNS)
+- Install AD-Domain-Services and DNS Windows features
+- Promote server as new forest root (lab.local)
+- Reboot, then post-reboot:
+- Create OUs: Workstations, FileServers, Users
+- Create Security Groups: GRP_Finance_RW, GRP_HR_RW, GRP_IT_Admins
+- Create Users: alice, bob, charlie with Key Vault-sourced passwords
+- Add users to appropriate groups
+- Set DNS forwarder to 168.63.129.16 (Azure DNS)
 
 
 ```powershell
@@ -396,16 +395,12 @@ $acl = Get-Acl; $acl.AddAccessRule(...); Set-Acl
 icacls "E:\Shares\Finance" /grant "LAB\GRP_Finance_RW:(OI)(CI)M"
 ```
 
-configure-client01.ps1 — Client Workstation Setup
+**configure-client01.ps1** — Client Workstation Setup
 Responsibilities:
-
-Retry loop — wait for DC01/domain to be reachable
-
-Domain join lab.local
-
-Map network drives (persistent)
-
-Optional: per-user access validation tests
+- Retry loop — wait for DC01/domain to be reachable
+- Domain join lab.local
+- Map network drives (persistent)
+- Optional: per-user access validation tests
 
 Key Cmdlets:
 
@@ -415,16 +410,19 @@ New-PSDrive -Name "F" -PSProvider FileSystem -Root "\\FS01\Finance"
 net use F: \\FS01\Finance /persistent:yes
 ```
 
-10. Technology Stack Summary
-Layer	Technology
-Cloud Platform	Microsoft Azure
-IaC Tool	Terraform (AzureRM provider ~3.x)
-Secret Management	Azure Key Vault
-OS	Windows Server 2022 Datacenter
-Directory Services	Active Directory Domain Services (AD DS)
-File Protocol	SMB 3.x over TCP 445
-Permissions Model	NTFS ACLs + SMB Share Permissions
-Automation	PowerShell 5.1 / Azure Custom Script Ext
-Networking	Azure VNet, NSG, Static Private IPs
-State Backend	Azure Blob Storage (recommended)
-Version Control	Git (.gitignore excludes secrets/state)
+### 10. Technology Stack Overview
+
+| Layer              | Technology                                   |
+|--------------------|-----------------------------------------------|
+| Cloud Platform     | Microsoft Azure                               |
+| IaC Tool           | Terraform (AzureRM provider ~3.x)             |
+| Secret Management  | Azure Key Vault                               |
+| OS                 | Windows Server 2022 Datacenter                |
+| Directory Services | Active Directory Domain Services (AD DS)      |
+| File Protocol      | SMB 3.x over TCP 445                          |
+| Permissions Model  | NTFS ACLs + SMB Share Permissions             |
+| Automation         | PowerShell 5.1 / Azure Custom Script Ext      |
+| Networking         | Azure VNet, NSG, Static Private IPs           |
+| State Backend      | Azure Blob Storage (recommended)              |
+| Version Control    | Git (.gitignore excludes secrets/state)       |
+
