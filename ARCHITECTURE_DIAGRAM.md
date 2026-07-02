@@ -73,7 +73,7 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 ## 3. Component Descriptions
 
 ### DC01 — Domain Controller
-
+```text
 ┌─────────────────────────────────────────────────┐
 │                     DC01                        │
 │                                                 │
@@ -96,10 +96,11 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 │    • Create OUs, Groups, Users                  │
 │    • Configure DNS forwarders                   │
 └─────────────────────────────────────────────────┘
-
+```
 
 
 **AD Objects Created:**
+
 
 | Object Type    | Name / Path                                              |
 |----------------|----------------------------------------------------------|
@@ -114,7 +115,7 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 ---
 
 ### FS01 — File Server
-
+```text
 ┌─────────────────────────────────────────────────┐
 │                     FS01                        │
 │                                                 │
@@ -134,12 +135,12 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 │    • Set SMB share permissions                  │
 │    • Apply NTFS ACLs per group                  │
 └─────────────────────────────────────────────────┘
-
+```
 
 ---
 
 ### CLIENT01 — Domain Workstation
-
+```text
 ┌─────────────────────────────────────────────────┐
 │                   CLIENT01                      │
 │                                                 │
@@ -152,14 +153,14 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 │    • Map network drives to SMB shares           │
 │    • Validate NTFS permissions per user         │
 └─────────────────────────────────────────────────┘
-
+```
 
 ---
 
 ## 4. Key Vault & Secrets Management
 
 Azure Key Vault is the **single source of truth** for all credentials in this lab. Terraform reads secrets at plan/apply time and passes them as VM extensions or `sensitive` variables — they never appear in plain `.tf` files.
-
+```text
 ┌──────────────────────────────────────────────────────────┐
 │                    Azure Key Vault                       │
 │                    lab-keyvault                          │
@@ -178,7 +179,7 @@ Azure Key Vault is the **single source of truth** for all credentials in this la
 │   • Terraform Service Principal → Get, List secrets      │
 │   • VM Managed Identity (optional) → Get secrets         │
 └──────────────────────────────────────────────────────────┘
-
+```
 
 **Terraform Pattern:**
 ```hcl
@@ -194,6 +195,7 @@ data "azurerm_key_vault_secret" "admin_password" {
 5. Active Directory & DNS
 Domain Topology
 
+```text
 Forest Root: lab.local
 │
 └── Domain: lab.local
@@ -208,10 +210,11 @@ Forest Root: lab.local
           ├── alice     → Member of: GRP_Finance_RW
           ├── bob       → Member of: GRP_HR_RW
           └── charlie   → Member of: GRP_IT_Admins
-
+```
 
 DNS Flow
 
+```text
 CLIENT01 / FS01
     │
     │  DNS Query (e.g. dc01.lab.local)
@@ -221,7 +224,7 @@ DC01 (10.0.1.4) — Authoritative for lab.local
     │  External queries forwarded to
     ▼
 Azure DNS / 168.63.129.16
-
+```
 
 
 
@@ -229,12 +232,12 @@ Azure DNS / 168.63.129.16
 All shares reside on FS01's E:\Shares\ data disk. Two permission layers are applied: SMB share-level and NTFS folder-level.
 
 Share Structure
-
+```text
 E:\Shares\
 ├── Finance\     ← GRP_Finance_RW (Modify), GRP_IT_Admins (Full)
 ├── HR\          ← GRP_HR_RW (Modify), GRP_IT_Admins (Full)
 └── IT\          ← GRP_IT_Admins (Full Control)
-
+```
 
 SMB Share Permissions
 Share	SMB Permission	Notes
@@ -255,7 +258,7 @@ IT\	GRP_IT_Admins	Full Control	This folder, subfolders, files
 
 7. Deployment Flow
 
-
+```text
 terraform init
       │
       ▼
@@ -295,7 +298,7 @@ terraform apply
             • Domain join
             • Map network drives
             • Validate share access
-
+```
 
 Dependency Graph (Simplified)
 
