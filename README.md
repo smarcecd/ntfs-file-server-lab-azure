@@ -138,8 +138,8 @@ az storage container create --name tfstate --account-name tfstatentfslabYOURNAME
 
 ## ⚙️ Step 3 — Configure Variables
 
-Retrieve your public IP address from whatismyip.com and update the rdp_source value in terraform.tfvars using the CIDR format (e.g., 1.2.3.4/32).
-Make sure the description for rdp_source in variables.tf reflects the same format, and update terraform.tfvars.example as well so future runs or references stay consistent.
+Retrieve your public IP address from **whatismyip.com** and update the rdp_source value in **terraform.tfvars** using the CIDR format (e.g., 1.2.3.4/32).
+Make sure the description for rdp_source in **variables.tf** reflects the same format, and update **terraform.tfvars.example** as well so future runs or references stay consistent.
 
 - Copy example variables:
 
