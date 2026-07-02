@@ -15,10 +15,6 @@
 8. [Key Design Decisions](#8-key-design-decisions)
 9. [What Gets Built](#9-what-gets-built)
 10. [Validation Checklist](#10-validation-checklist)
-11. [Tear Down](#11-tear-down)
-12. [Known Limitations & Gotchas](#12-known-limitations--gotchas)
-13. [Roadmap / Future Enhancements](#13-roadmap--future-enhancements)
-14. [Related Documentation](#14-related-documentation)
 
 ---
 
