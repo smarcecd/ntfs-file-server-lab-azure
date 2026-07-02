@@ -51,6 +51,7 @@ Before starting, ensure the following are ready:
 - [ ] [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) installed and authenticated (`az login`)
 - [ ] [Terraform](https://developer.hashicorp.com/terraform/downloads) **v1.3+** installed
 - [ ] Active Azure subscription with permissions to create resources
+- [ ] [Git for Windows](https://git-scm.com) 
 - [ ] A local directory to store Terraform files
 
 
@@ -64,7 +65,7 @@ To learn how to Install Terraform and connect it to your Azure susbscription, pl
 ##  📁 Project Structure
 
 ```text
-ntfs-lab-terraform/
+ntfs-file-server-lab-azure/
 ├── backend.tf
 ├── versions.tf
 ├── variables.tf
@@ -90,17 +91,23 @@ ntfs-lab-terraform/
 
 ## 🚀 Deployment Guide
 
-### Step 1 — Create Your Project Folder
+### Step 1 — Clone This Repository to Your Project Folder
 
-- Create a dedicated project folder with all Terraform files stored in the root directory. Place all PowerShell automation scripts inside a scripts/ subfolder. The configure-lab.ps1 orchestrator relies on this exact structure and calls each script using relative paths, so the layout must remain unchanged. 
+Create a dedicated project folder with all Terraform files stored in the root directory. Place all PowerShell automation scripts inside a scripts/ subfolder. The configure-lab.ps1 orchestrator relies on this exact structure and calls each script using relative paths, so the layout must remain unchanged. 
 
-Open PowerShell as Admin and paste the following commands:
+To download this lab to your computer, run the following command in your terminal or PowerShell:
 
 ```powershell
-New-Item -ItemType Directory -Path "$HOME\ntfs-lab-terraform"
-cd "$HOME\ntfs-lab-terraform"
-New-Item -ItemType Directory -Path scripts
+git clone https://github.com/smarcecd/ntfs-file-server-lab-azure.git
+
 ```
+
+This will create a folder named: **ntfs-file-server-lab-azure** . Then navigate into it:
+
+```powershell
+cd ntfs-file-server-lab-azure
+```
+You now have the full project locally and can begin exploring or deploying the Terraform lab.
 
 ---
 
