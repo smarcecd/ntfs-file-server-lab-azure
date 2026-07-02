@@ -175,12 +175,11 @@ terraform plan
 terraform apply
 ```
 
-```
 
 After deployment, capture:
 
-terraform output key_vault_name
-terraform output client01_public_ip
+- terraform output key_vault_name
+- terraform output client01_public_ip
 
 ---
 
