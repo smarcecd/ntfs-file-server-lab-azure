@@ -366,7 +366,7 @@ A single terraform apply provisions and configures the following:
 ## 10. Validation Checklist
 After terraform apply completes, run through these checks:
 
-From DC01 (RDP as LAB\labadmin) 
+**From DC01 (RDP as LAB\labadmin)**  
 
 [ ] Get-ADDomain returns lab.local 
 
@@ -379,7 +379,7 @@ From DC01 (RDP as LAB\labadmin)
 [ ] Resolve-DnsName fs01.lab.local resolves to 10.0.1.5 
 
 
-From FS01 (RDP as LAB\labadmin) 
+**From FS01 (RDP as LAB\labadmin)** 
 
 [ ] (Get-WmiObject Win32_ComputerSystem).Domain returns lab.local 
 
@@ -390,7 +390,7 @@ From FS01 (RDP as LAB\labadmin)
 [ ] icacls E:\Shares\Finance shows correct ACEs for GRP_Finance_RW 
 
 
-From CLIENT01 (RDP as LAB\alice) 
+**From CLIENT01 (RDP as LAB\alice)** 
 
 [ ] whoami returns LAB\alice 
 
