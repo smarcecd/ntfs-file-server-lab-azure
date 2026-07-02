@@ -404,20 +404,24 @@ $acl = Get-Acl; $acl.AddAccessRule(...); Set-Acl
 icacls "E:\Shares\Finance" /grant "LAB\GRP_Finance_RW:(OI)(CI)M"
 ```
 
-**configure-client01.ps1** — Client Workstation Setup
-Responsibilities:
+**configure-client01.ps1** — Client Workstation Setup 
+
+Responsibilities: 
+
 - Retry loop — wait for DC01/domain to be reachable
 - Domain join lab.local
 - Map network drives (persistent)
 - Optional: per-user access validation tests
 
-Key Cmdlets:
+Key Cmdlets: 
 
 ```powershell
 Add-Computer -DomainName "lab.local" ...
 New-PSDrive -Name "F" -PSProvider FileSystem -Root "\\FS01\Finance"
 net use F: \\FS01\Finance /persistent:yes
 ```
+
+---
 
 ### 10. Technology Stack Overview
 
