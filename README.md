@@ -161,9 +161,19 @@ On Powersherll or Visual Studio Code, on the \ntfs-lab-terraform path, type:
 
 ```powershell
 az login
+```
+
+```powershell
 terraform init
+```
+
+```powershell
 terraform plan
+```
+
+```powershell
 terraform apply
+```
 
 ```
 
