@@ -127,6 +127,7 @@ export ARM_SUBSCRIPTION_ID="<subscriptionId>"
 ## 4. Lab Environment at a Glance
 
 ```text
+
 ┌─────────────────────────────────────────────────────────────┐
 │                    lab.local  (10.0.1.0/24)                 │
 │                                                             │
@@ -143,6 +144,7 @@ export ARM_SUBSCRIPTION_ID="<subscriptionId>"
 │   │  Domain User │  Maps \\FS01\Finance, \HR, \IT           │
 │   └──────────────┘                                         │
 └─────────────────────────────────────────────────────────────┘
+
 ```
 
   Shared services:  Azure Key Vault  |  Boot Diagnostics Storage
