@@ -63,6 +63,7 @@ To learn how to Install Terraform and connect it to your Azure susbscription, pl
 
 ##  📁 Project Structure
 
+```text
 ntfs-lab-terraform/
 ├── backend.tf
 ├── versions.tf
@@ -83,7 +84,7 @@ ntfs-lab-terraform/
     ├── 05-verify-ad.ps1
     ├── 05-verify-shares.ps1
     └── 06-add-rdp-users.ps1
-
+```
 
 ---
 
