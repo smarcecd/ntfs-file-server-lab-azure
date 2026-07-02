@@ -1,4 +1,4 @@
-# ARCHITECTURE_DIAGRAM.md
+
 # NTFS File Server Terraform Lab — Architecture Documentation
 
 ---
