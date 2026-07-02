@@ -191,8 +191,9 @@ data "azurerm_key_vault_secret" "admin_password" {
 # Referenced as:
 # data.azurerm_key_vault_secret.admin_password.value
 ```
+---
 
-### 5. Active Directory & DNS
+## 5. Active Directory & DNS
 Domain Topology
 
 ```text
@@ -226,12 +227,13 @@ DC01 (10.0.1.4) — Authoritative for lab.local
 Azure DNS / 168.63.129.16
 ```
 
+---
 
-
-### 6. NTFS Share Design
+## 6. NTFS Share Design
 All shares reside on FS01's E:\Shares\ data disk. Two permission layers are applied: SMB share-level and NTFS folder-level.
 
 Share Structure
+
 ```text
 E:\Shares\
 ├── Finance\     ← GRP_Finance_RW (Modify), GRP_IT_Admins (Full)
@@ -259,9 +261,9 @@ SMB Share Permissions
 | HR\      | GRP_IT_Admins     | Full Control    | This folder, subfolders, files      |
 | IT\      | GRP_IT_Admins     | Full Control    | This folder, subfolders, files      |
 
+---
 
-
-### 7. Deployment Flow
+## 7. Deployment Flow
 
 ```text
 terraform init
@@ -305,7 +307,9 @@ terraform apply
             • Validate share access
 ```
 
+
 Dependency Graph (Simplified)
+
 ```text
 key_vault
     └─► vm_dc01
@@ -320,7 +324,9 @@ vnet ──────────────► nic_dc01    ──► vm_dc01
            └───────► nic_client01──► vm_client01
 ```
 
-### 8. Project Folder Tree
+---
+
+## 8. Project Folder Tree
    
 ```text
 ntfs-lab/
@@ -371,11 +377,14 @@ ntfs-lab/
 └── .gitignore                  # Excludes *.tfstate, *.tfvars, .terraform/
 ```
 
+---
 
 ### 9. PowerShell Automation Scripts
     
-**configure-dc01.ps1** — Domain Controller Setup
-Responsibilities:
+**configure-dc01.ps1** — Domain Controller Setup 
+
+Responsibilities: 
+
 - Install AD-Domain-Services and DNS Windows features
 - Promote server as new forest root (lab.local)
 - Reboot, then post-reboot:
