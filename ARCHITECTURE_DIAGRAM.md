@@ -74,33 +74,7 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 
 ### DC01 — Domain Controller
 <img width="1306" height="1204" alt="dc01" src="https://github.com/user-attachments/assets/9fc59c7e-f5e5-40bc-b7bb-187d64df3e56" />
-
-
-```text
-┌─────────────────────────────────────────────────┐
-│                     DC01                        │
-│                                                 │
-│  OS:  Windows Server 2022 Datacenter            │
-│  SKU: Standard_B2ms (2 vCPU, 8 GB RAM)         │
-│  IP:  10.0.1.4 (static)                         │
-│                                                 │
-│  Roles Installed:                               │
-│    ✔ AD DS (Active Directory Domain Services)   │
-│    ✔ DNS Server                                 │
-│    ✔ RSAT Tools                                 │
-│                                                 │
-│  Domain:     lab.local                          │
-│  NetBIOS:    LAB                                │
-│  Forest FL:  Windows Server 2016                │
-│                                                 │
-│  Key Tasks (via PowerShell):                    │
-│    • Install-WindowsFeature AD-Domain-Services  │
-│    • Install-ADDSForest                         │
-│    • Create OUs, Groups, Users                  │
-│    • Configure DNS forwarders                   │
-└─────────────────────────────────────────────────┘
-```
-
+                          
 
 **AD Objects Created:**
 
@@ -118,6 +92,10 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 ---
 
 ### FS01 — File Server
+
+<img width="1305" height="1205" alt="FS)!" src="https://github.com/user-attachments/assets/8c39e299-4522-41ed-8de3-25a8bb0e4012" />
+
+
 ```text
 ┌─────────────────────────────────────────────────┐
 │                     FS01                        │
