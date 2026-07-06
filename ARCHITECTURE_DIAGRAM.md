@@ -108,26 +108,6 @@ Azure Key Vault is the **single source of truth** for all credentials in this la
 
 <img width="1024" height="1536" alt="az keyvault" src="https://github.com/user-attachments/assets/b7e8f9b5-f4ce-455a-98d6-5c9a64c81cf3" />
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                    Azure Key Vault                       │
-│                    lab-keyvault                          │
-│                                                          │
-│  Secrets:                                                │
-│   ┌──────────────────────┬──────────────────────────┐   │
-│   │ Secret Name          │ Used By                  │   │
-│   ├──────────────────────┼──────────────────────────┤   │
-│   │ vm-admin-password    │ All 3 VMs (local admin)  │   │
-│   │ domain-admin-password│ DC01 promote + domain    │   │
-│   │                      │ join on FS01 / CLIENT01  │   │
-│   │ dc-safe-mode-password│ DC01 DSRM password       │   │
-│   └──────────────────────┴──────────────────────────┘   │
-│                                                          │
-│  Access Policy:                                          │
-│   • Terraform Service Principal → Get, List secrets      │
-│   • VM Managed Identity (optional) → Get secrets         │
-└──────────────────────────────────────────────────────────┘
-```
 
 **Terraform Pattern:**
 ```hcl
@@ -142,7 +122,7 @@ data "azurerm_key_vault_secret" "admin_password" {
 ---
 
 ## 5. Active Directory & DNS
-Domain Topology
+### Domain Topology
 
 ```text
 Forest Root: lab.local
@@ -161,26 +141,16 @@ Forest Root: lab.local
           └── charlie   → Member of: GRP_IT_Admins
 ```
 
-DNS Flow
+### DNS Flow
 
-```text
-CLIENT01 / FS01
-    │
-    │  DNS Query (e.g. dc01.lab.local)
-    ▼
-DC01 (10.0.1.4) — Authoritative for lab.local
-    │
-    │  External queries forwarded to
-    ▼
-Azure DNS / 168.63.129.16
-```
+<img width="1024" height="1536" alt="dnsflow" src="https://github.com/user-attachments/assets/127c3ac0-058d-4709-8df1-c04cdd57b6c9" />
 
 ---
 
 ## 6. NTFS Share Design
 All shares reside on FS01's E:\Shares\ data disk. Two permission layers are applied: SMB share-level and NTFS folder-level.
 
-Share Structure
+### Share Structure
 
 ```text
 E:\Shares\
@@ -189,7 +159,7 @@ E:\Shares\
 └── IT\          ← GRP_IT_Admins (Full Control)
 ```
 
-SMB Share Permissions
+### SMB Share Permissions
 
 | Share   | SMB Permission                                   | Notes                         |
 |---------|--------------------------------------------------|-------------------------------|
@@ -256,7 +226,7 @@ terraform apply
 ```
 
 
-Dependency Graph (Simplified)
+### Dependency Graph (Simplified)
 
 ```text
 key_vault
