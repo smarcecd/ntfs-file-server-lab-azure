@@ -95,29 +95,6 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 
 <img width="1305" height="1205" alt="FS)!" src="https://github.com/user-attachments/assets/8c39e299-4522-41ed-8de3-25a8bb0e4012" />
 
-
-```text
-┌─────────────────────────────────────────────────┐
-│                     FS01                        │
-│                                                 │
-│  OS:  Windows Server 2022 Datacenter            │
-│  SKU: Standard_B2ms (2 vCPU, 8 GB RAM)         │
-│  IP:  10.0.1.5 (static)                         │
-│                                                 │
-│  Roles Installed:                               │
-│    ✔ File and Storage Services                  │
-│    ✔ SMB 2.x / 3.x                             │
-│                                                 │
-│  Data Disk: 64 GB Premium LRS (E: drive)        │
-│                                                 │
-│  Key Tasks (via PowerShell):                    │
-│    • Domain join to lab.local                   │
-│    • Create folder structure on E:\             │
-│    • Set SMB share permissions                  │
-│    • Apply NTFS ACLs per group                  │
-└─────────────────────────────────────────────────┘
-```
-
 ---
 
 ### CLIENT01 — Domain Workstation
