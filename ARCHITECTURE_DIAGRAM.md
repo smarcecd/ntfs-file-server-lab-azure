@@ -73,6 +73,9 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 ## 3. Component Descriptions
 
 ### DC01 — Domain Controller
+<img width="1306" height="1204" alt="dc01" src="https://github.com/user-attachments/assets/9fc59c7e-f5e5-40bc-b7bb-187d64df3e56" />
+
+
 ```text
 ┌─────────────────────────────────────────────────┐
 │                     DC01                        │
