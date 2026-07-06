@@ -100,52 +100,14 @@ az login
 
 # 2. Set your target subscription
 az account set --subscription "<SUBSCRIPTION_ID>"
-
-# 3. Create a Service Principal for Terraform (if not already done)
-az ad sp create-for-rbac \
-  --name "tf-ntfs-lab-sp" \
-  --role Contributor \
-  --scopes /subscriptions/<SUBSCRIPTION_ID>
-
-# 4. Export credentials as environment variables
-export ARM_CLIENT_ID="<appId>"
-export ARM_CLIENT_SECRET="<password>"
-export ARM_TENANT_ID="<tenant>"
-export ARM_SUBSCRIPTION_ID="<subscriptionId>"
-
-### 4. Export credentials as environment variables
-
-# 4. Export credentials as environment variables
-export ARM_CLIENT_ID="<appId>"
-export ARM_CLIENT_SECRET="<password>"
-export ARM_TENANT_ID="<tenant>"
-export ARM_SUBSCRIPTION_ID="<subscriptionId>"
 ```
 
 ---
 
 ## 4. Lab Environment at a Glance
 
-```text
 
-┌─────────────────────────────────────────────────────────────┐
-│                    lab.local  (10.0.1.0/24)                 │
-│                                                             │
-│   DC01 (10.0.1.4)        FS01 (10.0.1.5)                   │
-│   ┌──────────────┐       ┌──────────────┐                  │
-│   │ AD DS + DNS  │◄─────►│  File Server │                  │
-│   │  lab.local   │       │  E:\Shares\  │                  │
-│   └──────┬───────┘       └──────┬───────┘                  │
-│          │  Kerberos Auth        │  SMB (445)               │
-│          │                       │                          │
-│   CLIENT01 (10.0.1.6)            │                          │
-│   ┌──────────────┐               │                          │
-│   │  Workstation │◄──────────────┘                         │
-│   │  Domain User │  Maps \\FS01\Finance, \HR, \IT           │
-│   └──────────────┘                                         │
-└─────────────────────────────────────────────────────────────┘
-
-```
+<img width="1024" height="1024" alt="lablocal" src="https://github.com/user-attachments/assets/4aa60fc6-a035-466e-9cbe-7567669f9817" />
 
   Shared services:  Azure Key Vault  |  Boot Diagnostics Storage
 
