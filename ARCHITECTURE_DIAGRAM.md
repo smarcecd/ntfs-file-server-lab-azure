@@ -98,26 +98,16 @@ This lab provisions a **Windows Server Active Directory + NTFS File Server envir
 ---
 
 ### CLIENT01 — Domain Workstation
-```text
-┌─────────────────────────────────────────────────┐
-│                   CLIENT01                      │
-│                                                 │
-│  OS:  Windows Server 2022 / Windows 10          │
-│  SKU: Standard_B2ms (2 vCPU, 8 GB RAM)         │
-│  IP:  10.0.1.6                                  │
-│                                                 │
-│  Key Tasks (via PowerShell):                    │
-│    • Domain join to lab.local                   │
-│    • Map network drives to SMB shares           │
-│    • Validate NTFS permissions per user         │
-└─────────────────────────────────────────────────┘
-```
+<img width="1437" height="1094" alt="client" src="https://github.com/user-attachments/assets/32d31b2a-6d61-49dc-a3c2-a31c7b64e32b" />
 
 ---
 
 ## 4. Key Vault & Secrets Management
 
 Azure Key Vault is the **single source of truth** for all credentials in this lab. Terraform reads secrets at plan/apply time and passes them as VM extensions or `sensitive` variables — they never appear in plain `.tf` files.
+
+<img width="1024" height="1536" alt="az keyvault" src="https://github.com/user-attachments/assets/b7e8f9b5-f4ce-455a-98d6-5c9a64c81cf3" />
+
 ```text
 ┌──────────────────────────────────────────────────────────┐
 │                    Azure Key Vault                       │
