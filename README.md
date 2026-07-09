@@ -9,6 +9,12 @@
 
 A fully automated, cloud-hosted Windows File Server environment deployed in Azure using Terraform and configured end‑to‑end with PowerShell. This lab demonstrates real enterprise concepts: Active Directory, NTFS permissions, SMB shares, Group Policy, secure secret handling, and Infrastructure as Code.
 
+
+Watch me doing this lab here:
+
+[![NTFSLAB](https://github.com/user-attachments/assets/5d77cb3c-a7e8-47ee-aa3d-ea53bcd9217c)](https://www.loom.com/share/a59a591f4f93402d9166df4b20395490)
+
+
 ---
 
 ## 🔗 Lab Overview
