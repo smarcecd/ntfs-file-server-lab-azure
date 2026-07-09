@@ -212,12 +212,12 @@ RDP into CLIENT01 using the public IP shown in your Terraform output. Log in wit
 
 | Log in as            | Share            | Expected Result      | Why                                                                 |
 |----------------------|------------------|-----------------------|---------------------------------------------------------------------|
-| **LAB\sarah.jones**  | "\\FS01\Finance"   | ✅ Read/Write         | Member of **GRP_Finance** — granted Modify NTFS rights              |
-| **LAB\sarah.jones**  | "\\FS01\HR"        | ❌ Access Denied      | Not in **GRP_HR** — no NTFS ACE on the HR folder                    |
-| **LAB\lisa.white**   | "\\FS01\Finance"   | ✅ Read Only          | **GRP_HR** has Read NTFS rights on Finance for reporting needs      |
-| **LAB\lisa.white**   | "\\FS01\HR"        | ✅ Read/Write         | Member of **GRP_HR** — granted Modify NTFS rights                   |
-| **LAB\john.smith**   | "\\FS01\IT"        | ✅ Full Control       | Member of **GRP_IT** — Full Control NTFS rights everywhere          |
-| **LAB\tom.davis**    | "\\FS01\Finance"   | ❌ Access Denied      | **GRP_Sales** has no NTFS entry on Finance — no business need       |
+| **LAB\sarah.jones**  | \\\\FS01\Finance   | ✅ Read/Write         | Member of **GRP_Finance** — granted Modify NTFS rights              |
+| **LAB\sarah.jones**  | \\\\FS01\HR        | ❌ Access Denied      | Not in **GRP_HR** — no NTFS ACE on the HR folder                    |
+| **LAB\lisa.white**   | \\\\FS01\Finance   | ✅ Read Only          | **GRP_HR** has Read NTFS rights on Finance for reporting needs      |
+| **LAB\lisa.white**   | \\\\FS01\HR        | ✅ Read/Write         | Member of **GRP_HR** — granted Modify NTFS rights                   |
+| **LAB\john.smith**   | \\\\FS01\IT        | ✅ Full Control       | Member of **GRP_IT** — Full Control NTFS rights everywhere          |
+| **LAB\tom.davis**    | \\\\FS01\Finance   | ❌ Access Denied      | **GRP_Sales** has no NTFS entry on Finance — no business need       |
 
 
 ---
