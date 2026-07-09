@@ -1,4 +1,4 @@
-<img width="550" height="311" alt="explanation" src="https://github.com/user-attachments/assets/37344bb2-e844-4e0f-80db-dfca8ab6b356" />
+
 
 # NTFS File Server Terraform Lab — Architecture Documentation
 
@@ -23,8 +23,7 @@
 
 This lab provisions a **Windows Server Active Directory + NTFS File Server environment** entirely through **Terraform on Azure**, using **Azure Key Vault** for secure credential management and **PowerShell DSC / custom scripts** for post-deployment configuration.
 
-
-<img width="1536" height="1024" alt="ChatGPT Image Jun 30, 2026, 10_49_10 PM" src="https://github.com/user-attachments/assets/9732a998-1a34-4dce-a51c-23783568d68b" />
+[![explanation](https://github.com/user-attachments/assets/37344bb2-e844-4e0f-80db-dfca8ab6b356)](https://www.loom.com/share/f5958463bc424741ad3d5004ff603ddb)
 
 
 **Design Goals:**
