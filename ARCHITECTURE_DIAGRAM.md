@@ -1,3 +1,4 @@
+<img width="550" height="311" alt="explanation" src="https://github.com/user-attachments/assets/37344bb2-e844-4e0f-80db-dfca8ab6b356" />
 
 # NTFS File Server Terraform Lab — Architecture Documentation
 
