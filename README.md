@@ -260,6 +260,8 @@ az vm start --ids $(az vm list -g RG-FileServerLab --query "[].id" -o tsv) --no-
 
 This lab mirrors real enterprise patterns used today
 
+Here is the link for: 👥 [**Lab 2 – Azure Role-Based Access Control Lab**](https://github.com/smarcecd/terraform-azure-rbac-lab)
+
 
 ```bash
 # Full teardown — only when completely done with both labs
